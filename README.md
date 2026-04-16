@@ -232,7 +232,6 @@ After running, the `output/` directory contains:
 
 * terminal window and output directory screenshot
 
-<img width="1623" height="1013" alt="image" src="https://github.com/user-attachments/assets/6d7e9b93-2bc5-41a9-88f8-7ac5286cf65c" />
-
+<img width="1623" height="1013" alt="image" src="https://github.com/user-attachments/assets/784cd068-d6ef-4cf3-823f-4b4d625baec4" />
 
 * * *
