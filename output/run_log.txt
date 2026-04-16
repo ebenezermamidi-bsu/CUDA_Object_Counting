@@ -1,0 +1,19 @@
+COCO Object Counter Run Log
+Input dir: data/coco/prepared
+Output dir: output
+Threshold: 140
+Min area: 50
+Requested max images: 5000
+Actual images processed: 5000
+Save samples: 7
+Sample interval: 714
+
+
+Summary
+Successful jobs: 5000
+Failed jobs: 0
+Saved sample outputs: 7
+Average GPU time per successful job (ms): 0.587
+Average end-to-end time per successful job (ms): 3.273
+Total wall time (ms): 43807.789
+Throughput (images/sec): 114.135
