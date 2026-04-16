@@ -37,7 +37,7 @@ The pipeline is:
 * GPU-accelerated image processing using CUDA
 * Custom CUDA kernels for thresholding and morphology
 * Large-batch processing of thousands of images
-* End-to-end pipeline from dataset → prepared images → GPU → output artifacts
+* End-to-end pipeline from dataset to prepared images to GPU to output artifacts
 * Proof of execution through CSV, logs, and sample images
 
 * * *
@@ -229,6 +229,7 @@ After running, the `output/` directory contains:
 | ![](output/masks/sample_004_mask.png) | ![](output/cleaned/sample_004_cleaned.png) | ![](output/labeled/sample_004_labeled.png) |
 | ![](output/masks/sample_005_mask.png) | ![](output/cleaned/sample_005_cleaned.png) | ![](output/labeled/sample_005_labeled.png) |
 | ![](output/masks/sample_006_mask.png) | ![](output/cleaned/sample_006_cleaned.png) | ![](output/labeled/sample_006_labeled.png) |
+| ![](output/masks/sample_007_mask.png) | ![](output/cleaned/sample_007_cleaned.png) | ![](output/labeled/sample_007_labeled.png) |
 
 * terminal window and output directory screenshot
 
