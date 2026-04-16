@@ -147,8 +147,4 @@ output/cleaned/
 output/labeled/
 ```
 
-The program writes:
-- PGM files → processing traceability  
-- PNG files → visualization for README/demo  
-
 ---
