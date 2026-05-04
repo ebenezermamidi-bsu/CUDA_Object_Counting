@@ -13,14 +13,14 @@ SAVE_SAMPLES="${SAVE_SAMPLES:-7}"
 
 mkdir -p "$ARCHIVE_DIR" "$PREPARED_DIR"
 
-echo "=== Step 1: Download COCO 2017 dataset files (if not already present) ==="
+echo " Step 1: Download COCO 2017 dataset files (if not already present) "
 if [ ! -d "$TRAIN_DIR" ] || [ -z "$(find "$TRAIN_DIR" -maxdepth 1 -type f -name '*.jpg' 2>/dev/null | head -n 1)" ]; then
     bash scripts/download_coco_2017.sh
 else
     echo "COCO val2017 images already exist. Skipping download."
 fi
 
-echo "=== Step 2: Prepare normalized grayscale images (if needed) ==="
+echo " Step 2: Prepare normalized grayscale images (if needed) "
 PREPARED_COUNT=$(find "$PREPARED_DIR" -maxdepth 1 -type f -name '*.pgm' 2>/dev/null | wc -l | tr -d ' ')
 if [ "$PREPARED_COUNT" -lt "$MAX_IMAGES" ]; then
     echo "Preparing COCO images..."
@@ -33,10 +33,10 @@ else
     echo "Sufficient prepared images already exist ($PREPARED_COUNT). Skipping preparation."
 fi
 
-echo "=== Step 3: Build project ==="
+echo " Step 3: Build project "
 make
 
-echo "=== Step 4: Run pipeline ==="
+echo " Step 4: Run pipeline "
 mkdir -p output/masks output/cleaned output/labeled output/stats
 
 ./bin/coco_object_counter \
@@ -47,7 +47,7 @@ mkdir -p output/masks output/cleaned output/labeled output/stats
   --min-area "$MIN_AREA" \
   --save-samples "$SAVE_SAMPLES"
 
-echo "=== Step 5: Convert outputs to PNG ==="
+echo " Step 5: Convert outputs to PNG "
 python3 scripts/convert_output_pgm_to_png.py --output-dir output
 
-echo "=== Done ==="
+echo " Done "
