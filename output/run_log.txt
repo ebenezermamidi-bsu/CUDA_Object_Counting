@@ -13,7 +13,7 @@ Summary
 Successful jobs: 5000
 Failed jobs: 0
 Saved sample outputs: 7
-Average GPU time per successful job (ms): 1.178
-Average end-to-end time per successful job (ms): 5.450
-Total wall time (ms): 169094.410
-Throughput (images/sec): 29.569
+Average GPU time per successful job (ms): 0.695
+Average end-to-end time per successful job (ms): 3.976
+Total wall time (ms): 49789.036
+Throughput (images/sec): 100.424

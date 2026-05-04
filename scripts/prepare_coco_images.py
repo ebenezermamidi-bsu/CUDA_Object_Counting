@@ -1,16 +1,33 @@
 import argparse
 from pathlib import Path
 from PIL import Image, ImageOps
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import os
 
 
 def collect_images(root: Path):
     return sorted(p for p in root.glob("*.jpg") if p.is_file())
 
 
-def prepare_image(img: Image.Image, size: int) -> Image.Image:
-    gray = img.convert("L")
-    fitted = ImageOps.fit(gray, (size, size), method=Image.Resampling.LANCZOS, centering=(0.5, 0.5))
-    return fitted
+def prepare_image(img_path, output_dir, size):
+    out_path = output_dir / f"{img_path.stem}.pgm"
+
+    if out_path.exists():
+        return "skipped"
+
+    try:
+        with Image.open(img_path) as img:
+            gray = img.convert("L")
+            fitted = ImageOps.fit(
+                gray,
+                (size, size),
+                method=Image.Resampling.LANCZOS,
+                centering=(0.5, 0.5),
+            )
+            fitted.save(out_path)
+        return "done"
+    except Exception as exc:
+        return f"error: {exc}"
 
 
 def main():
@@ -21,39 +38,33 @@ def main():
     parser.add_argument("--size", type=int, default=256)
     args = parser.parse_args()
 
+    workers = os.cpu_count()
+
     source_dir = Path(args.source_dir)
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    image_files = collect_images(source_dir)
-    if not image_files:
-        print(f"No JPEG source images found under {source_dir}")
-        return
+    image_files = collect_images(source_dir)[: args.limit]
 
-    prepared = 0
-    skipped_existing = 0
+    done = 0
+    skipped = 0
 
-    for img_path in image_files:
-        if prepared >= args.limit:
-            break
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = {
+            executor.submit(prepare_image, img_path, output_dir, args.size): img_path
+            for img_path in image_files
+        }
 
-        out_path = output_dir / f"{img_path.stem}.pgm"
-        if out_path.exists():
-            skipped_existing += 1
-            prepared += 1
-            continue
+        for future in as_completed(futures):
+            result = future.result()
+            if result == "done":
+                done += 1
+            elif result == "skipped":
+                skipped += 1
 
-        try:
-            with Image.open(img_path) as img:
-                result = prepare_image(img, args.size)
-                result.save(out_path)
-                prepared += 1
-        except Exception as exc:
-            print(f"Skipping {img_path.name}: {exc}")
-
-    print(f"Prepared {prepared} images in {output_dir}")
-    if skipped_existing:
-        print(f"Reused {skipped_existing} existing prepared images")
+    print(f"Prepared {done} images in {output_dir}")
+    if skipped:
+        print(f"Reused {skipped} existing images")
 
 
 if __name__ == "__main__":

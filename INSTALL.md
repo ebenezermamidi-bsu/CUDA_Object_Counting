@@ -73,6 +73,10 @@ sudo apt install -y build-essential make python3 python3-pil
 # Dataset tools
 sudo apt install -y imagemagick curl wget unzip
 
+# Parrallel Unzip
+sudo apt install pigz
+sudo apt install p7zip-full
+
 # CUDA paths (if not already set)
 export PATH=/usr/local/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
